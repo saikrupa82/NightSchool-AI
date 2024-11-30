@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NightSchool AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+        }
+
+        #loadingSpinner {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 to-blue-100">
+    <!-- Main Container -->
+    <div class="bg-white w-full max-w-lg rounded-xl shadow-lg p-8">
+        <!-- Header Section -->
+        <div class="text-center mb-6">
+            <div class="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-pink-500 flex items-center justify-center">
+                <span class="text-3xl text-white font-bold">AI</span>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-800 mt-4">NightSchool AI</h2>
+            <p class="text-gray-500">Discover calming, educational audio stories tailored to your topics.</p>
+        </div>
+
+        <!-- Form Section -->
+        <form id="generatorForm" class="space-y-4">
+            <div>
+                <label for="topic" class="block text-lg font-semibold text-gray-700">Enter a Topic:</label>
+                <textarea id="topic" name="topic" rows="4" class="mt-2 w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="E.g., The Solar System" required></textarea>
+            </div>
+            <button id="generateBtn" type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 rounded-lg shadow-md hover:from-blue-600 hover:to-purple-600 transition-transform transform hover:scale-105">
+                Generate Story
+            </button>
+        </form>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="hidden mt-6 text-center">
+            <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+            <p class="text-gray-600 mt-2">Generating your story, please wait...</p>
+        </div>
+
+        <!-- Audio Player -->
+        <div id="audioContainer" class="hidden mt-6">
+            <h5 class="text-lg font-semibold text-center text-gray-700">Your Story is Ready!</h5>
+            <div class="mt-4">
+                <audio controls class="w-full">
+                    <source id="audioSource" src="" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            
+        </div>
+        <!-- Footer Section -->
+      <footer class="mt-8 text-center text-gray-600 text-sm">
+        © <span id="currentYear"></span> <a href="https://myskr.netlify.app/" class="text-blue-500 hover:underline" target="_blank">Sai Krupa Reddy</a>. All rights reserved.
+    </footer>
+    </div>
+      
+
+    <!-- JavaScript -->
+    <script>
+        document.getElementById('generatorForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const spinner = document.getElementById('loadingSpinner');
+            const audioContainer = document.getElementById('audioContainer');
+            const audioSource = document.getElementById('audioSource');
+            const generateBtn = document.getElementById('generateBtn');
+            const topic = document.getElementById('topic').value.trim();
+
+            console.log('Form submitted with topic:', topic); // Log the topic entered by the user
+
+            if (!topic) {
+                console.error('Error: Topic field is empty.');
+                alert('Please enter a topic!');
+                return;
+            }
+
+            generateBtn.disabled = true;
+            generateBtn.textContent = "Generating...";
+            spinner.classList.remove('hidden');
+            audioContainer.classList.add('hidden');
+
+            try {
+                const formData = new FormData();
+                formData.append('topic', topic);
+
+                console.log('Sending POST request with FormData:', formData);
+
+                const response = await fetch('/', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                console.log('Response received:', response);
+
+                const data = await response.json();
+                console.log('Parsed response JSON:', data);
+
+                spinner.classList.add('hidden');
+
+                if (data.status === 'success') {
+                    const audioFile = `${data.file}`;
+                    console.log('Audio file path:', audioFile);
+
+                    audioSource.src = audioFile;
+                    document.querySelector('audio').load();
+                    audioContainer.classList.remove('hidden');
+
+                    console.log('Audio player updated with new source:', data.file);
+                } else {
+                    console.error('Server error:', data.message);
+                    alert(data.message || 'An error occurred while generating the story.');
+                }
+
+                generateBtn.disabled = false;
+                generateBtn.textContent = "Generate Story";
+            } catch (error) {
+                console.error('Fetch error:', error);
+                spinner.classList.add('hidden');
+                alert('An unexpected error occurred. Please try again later.');
+
+                generateBtn.disabled = false;
+                generateBtn.textContent = "Generate Story";
+            }
+        });
+    </script>
+</body>
+
+</html>
