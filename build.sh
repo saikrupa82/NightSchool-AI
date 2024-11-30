@@ -1,2 +1,2 @@
-pip install -r requirements.txt
-apt-get install build-essentials
+#!/bin/bash
+apt-get update && apt-get install -y build-essential libssl-dev
