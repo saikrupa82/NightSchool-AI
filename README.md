@@ -7,9 +7,52 @@ NightSchool AI is a pioneering application designed to transform sleep into a pr
 
 ## **Features**  
 - **Topic-Based Story Generation**: Users input a topic, and OpenAI generates a personalized educational story.  
-- **Text-to-Speech Conversion**: Stories are converted into soothing audio directly using OpenAI. Alternatively, PlayHT can also be utilized for enhanced text-to-speech capabilities.  
+- **Text-to-Speech Conversion**: Stories are converted into soothing audio directly using OpenAI.  
 - **Simple, Interactive UI**: Tailored for ease of use, powered by TailwindCSS.  
 - **Audio Playback**: Direct playback of generated audio via an in-app player.  
+
+---
+
+## **Deployment**  
+
+NightSchool AI has been deployed using PythonAnywhere with the **basic package ($5/month)**. It is live at:  
+[**NightSchool AI Application**](https://saikrupa.pythonanywhere.com/)  
+
+### **Steps for Deployment on PythonAnywhere**:  
+
+1. **Create a PythonAnywhere Account**:  
+   Sign up at [pythonanywhere.com](https://www.pythonanywhere.com/) and choose the **Basic Plan ($5/month)** for Flask app hosting.  
+
+2. **Set Up Your Web App**:  
+   - Go to the **Web** tab on PythonAnywhere.  
+   - Create a new web app by choosing the **Flask Framework** and your preferred Python version.  
+
+3. **Upload Your Project Files**:  
+   - Use PythonAnywhere's file manager or SFTP to upload your Flask app files, including `app.py`, `templates`, and `static` folders.  
+
+4. **Install Dependencies**:  
+   - Open the PythonAnywhere **Bash Console**.  
+   - Install required dependencies using:  
+     ```bash
+     pip install -r requirements.txt
+     ```  
+
+5. **Configure Environment Variables**:  
+   - Add your OpenAI API key in the `.env` file or directly in the PythonAnywhere Environment section.  
+
+6. **Run the Web App**:  
+   - Restart the web app in the **Web** tab.  
+   - Test the live app at your PythonAnywhere domain.  
+
+---
+
+## **Screenshots**  
+
+### **Homepage**  
+![Homepage](image.png)  
+
+### **Generated Story with Audio Playback**  
+![Generated Story](image.png)  
 
 ---
 
@@ -22,8 +65,7 @@ NightSchool AI is a pioneering application designed to transform sleep into a pr
    The app sends the topic to OpenAI's GPT model, which crafts a calming, educational story based on the input.  
 
 3. **Text-to-Speech Conversion**:  
-   - **Option 1**: Using OpenAI's integrated text-to-speech feature, the story is converted into an audio file in `.wav` format.  
-   - **Option 2 (Future Enhancement)**: Use PlayHT API to convert text into audio for additional voice options and customization.  
+   - The story is processed by OpenAI’s text-to-speech API to generate audio in `.wav` format.  
 
 4. **Audio Playback**:  
    The generated audio file is saved in the `static` directory and played back to the user via an integrated audio player.  
@@ -36,7 +78,6 @@ NightSchool AI is a pioneering application designed to transform sleep into a pr
 - Python 3.8+  
 - Flask  
 - OpenAI API Key  
-- (Optional) PlayHT API Key  
 - TailwindCSS (optional for customization)  
 
 ### **Installation**  
@@ -55,7 +96,6 @@ NightSchool AI is a pioneering application designed to transform sleep into a pr
 3. Create a `.env` file in the project root and add your API keys:  
    ```plaintext
    OPENAI_API_KEY=<your_openai_api_key>
-   PLAYHT_API_KEY=<your_playht_api_key>  # Optional if PlayHT will be used
    ```  
 
 4. Ensure the `static` folder exists in the project directory to store generated audio files.  
@@ -72,45 +112,6 @@ NightSchool AI is a pioneering application designed to transform sleep into a pr
 
 ---
 
-## **Usage Instructions**  
-
-1. Enter the topic you want to learn about in the text area on the homepage (e.g., "The Solar System").  
-2. Click the **"Generate Story"** button.  
-3. Wait while the app generates and processes your story.  
-4. Once completed, the audio player will appear with your generated story ready to play.  
-
----
-
-## **File Structure**  
-- `app.py`: Main Flask application.  
-- `audio_story_generator.py`: Contains the `AudioStoryGenerator` class for generating stories and audio.  
-- `templates/index.html`: HTML template for the user interface.  
-- `static/`: Directory for storing generated audio files.  
-- `.env`: File for storing API keys securely.  
-
----
-
-## **How It Really Works**  
-
-### **Story Generation**  
-1. The `fetch_story_from_openai()` function sends the user's topic to the OpenAI API using a carefully crafted prompt.  
-2. The AI responds with an educational, engaging story tailored to the topic.  
-
-### **Text-to-Speech Conversion**  
-1. Using OpenAI:  
-   - The story is processed by OpenAI’s text-to-speech API to generate audio in `.wav` format.  
-
-2. **(Optional Enhancement)** Using PlayHT:  
-   - The story is sent to the PlayHT API for advanced text-to-speech conversion, allowing users to select voices and styles.  
-
-3. The generated audio is saved in the `static` directory for easy access.  
-
-### **User Interface**  
-1. The Flask app renders the `index.html` template, which provides a user-friendly interface styled with TailwindCSS.  
-2. JavaScript handles form submission, sending the user's input to the Flask backend and updating the page with the generated audio.  
-
----
-
 ## **Future Enhancements**  
 - **PlayHT Integration**: Provide an option for users to select voices and styles for story playback.  
 - **Flashcard System**: Save generated audio as flashcards for spaced repetition.  
@@ -120,7 +121,7 @@ NightSchool AI is a pioneering application designed to transform sleep into a pr
 ---
 
 ## **Limitations and Considerations**  
-- **API Limits**: Ensure your OpenAI and PlayHT API usage is within the allocated limits.  
+- **API Limits**: Ensure your OpenAI API usage is within the allocated limits.  
 - **Privacy**: Protect user input and data by implementing robust security measures.  
 - **Accuracy**: AI-generated content should be reviewed for accuracy, especially for academic purposes.  
 
