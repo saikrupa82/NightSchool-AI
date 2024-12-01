@@ -49,10 +49,11 @@ NightSchool AI has been deployed using PythonAnywhere with the **basic package (
 ## **Screenshots**  
 
 ### **Homepage**  
-![Homepage](image.png)  
+![Homepage](https://github.com/user-attachments/assets/ea14613b-4046-4f52-a70d-abac608fdbd1)
+
 
 ### **Generated Story with Audio Playback**  
-![Generated Story](image.png)  
+![Generated Story](https://github.com/user-attachments/assets/ff932e64-f608-49e2-8b97-d51329713128)
 
 ---
 
